@@ -3,15 +3,19 @@ services:
 
   app:
     container_name: n8n
-    image: n8nio/n8n:0.210.2
+    # image: n8nio/n8n:0.231.3
+    image: n8nio/n8n:0.233.1
     # command: n8n import:credentials --input=/home/node/import/credentials.json
     # command: n8n import:workflow --input=/home/node/import/flows.json
+    # command: n8n export:credentials --input=/home/node/export/credentials.json
+    # command: n8n export:workflow --input=/home/node/export/flows.json
     restart: always
     env_file:
       - .env
     volumes:
       - ./data:/home/node/.n8n
-      # - ./import:/home/node/import
+      - ./import:/home/node/import
+      - ./export:/home/node/export
     ports:
       - "5678:5678"
 
