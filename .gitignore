@@ -3,4 +3,4 @@
 data
 *.log
 import/*.json
-nginx/config/default.conf
+nginx/config/app.conf
