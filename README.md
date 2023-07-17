@@ -4,8 +4,6 @@
 
 1. pull repo
 2. create your .env
-3. update nginx/my.conf, replacing "YOUR_DOMAIN" with your app domain
-4. update init-letsencrypt.sh file with your domain and e-mail
-5. run ./init-letsencrypt.sh
-6. run `docker-compose up -d`
-7. be happy :)
+3. run DOMAIN=_YOUR_DOMAIN_ EMAIL=_YOUR_EMAIL_ ./init-letsencrypt.sh
+4. run `docker-compose up -d`
+5. be happy :)
