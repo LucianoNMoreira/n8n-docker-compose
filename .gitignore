@@ -3,4 +3,6 @@
 data
 *.log
 import/*.json
+export/*.json
 nginx/config/app.conf
+
