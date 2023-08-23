@@ -6,21 +6,34 @@ services:
     image: n8nio/n8n:0.236.3
     # command: n8n import:credentials --input=/home/node/import/credentials.json
     # command: n8n import:workflow --input=/home/node/import/flows.json
-    # command: n8n export:credentials --input=/home/node/export/credentials.json
-    # command: n8n export:workflow --input=/home/node/export/flows.json
+    # command: n8n export:credentials --all --output=/home/node/export/credentials.json
+    # command: n8n export:workflow --all --output=/home/node/export/flows.json
+    # command: n8n export:workflow --all --output=/home/node/export/flows.json && n8n export:credentials --all --output=/home/node/export/credentials.json && tini --/docker-entrypoint.sh
     restart: always
     env_file:
       - .env
+    environment:
+      EXECUTIONS_MODE: queue
     volumes:
       - ./data:/home/node/.n8n
       - ./import:/home/node/import
       - ./export:/home/node/export
     ports:
       - "5678:5678"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:6-alpine
+    restart: always
+    # ports:
+    #   - "6379:6379"
+    command: redis-server --requirepass redis
 
   nginx:
     image: nginx:1.25.1-alpine
     command: "/bin/sh -c 'envsubst < /etc/nginx/conf.d/app.conf.template > /etc/nginx/conf.d/app.conf & while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+    restart: always
     ports:
       - "80:80"
       - "443:443"
@@ -36,6 +49,7 @@ services:
   certbot:
     image: certbot/certbot
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    restart: always
     volumes:
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
