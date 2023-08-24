@@ -55,8 +55,8 @@ services:
     env_file:
       - .env
     environment:
-      NGINX_APP_HOST: lowcode.inovenow.com
-      NGINX_APP_API_HOST: lowcode_api.inovenow.com
+      NGINX_APP_HOST: ${N8N_WEBHOOK_URL}
+      NGINX_APP_API_HOST: ${N8N_API_HOST}
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
