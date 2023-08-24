@@ -55,7 +55,7 @@ services:
     env_file:
       - .env
     environment:
-      NGINX_APP_HOST: ${N8N_WEBHOOK_URL}
+      NGINX_APP_HOST: ${N8N_HOST}
       NGINX_APP_API_HOST: ${N8N_API_HOST}
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
