@@ -4,24 +4,39 @@ services:
   app:
     container_name: n8n
     image: n8nio/n8n:0.236.3
-    # command: n8n import:credentials --input=/home/node/import/credentials.json
-    # command: n8n import:workflow --input=/home/node/import/flows.json
-    # command: n8n export:credentials --all --output=/home/node/export/credentials.json
-    # command: n8n export:workflow --all --output=/home/node/export/flows.json
-    # command: n8n export:workflow --all --output=/home/node/export/flows.json && n8n export:credentials --all --output=/home/node/export/credentials.json && tini --/docker-entrypoint.sh
     restart: always
     env_file:
       - .env
     environment:
+      N8N_HOST: ${N8N_HOST}
+      WEBHOOK_URL: ${N8N_WEBHOOK_URL}
       EXECUTIONS_MODE: queue
+      QUEUE_BULL_REDIS_HOST: redis
+      QUEUE_BULL_REDIS_PASSWORD: redis
     volumes:
-      - ./data:/home/node/.n8n
+      - ./data/app:/home/node/.n8n
       - ./import:/home/node/import
       - ./export:/home/node/export
     ports:
       - "5678:5678"
     depends_on:
       - redis
+
+  api:
+    container_name: n8n_api
+    image: n8nio/n8n:0.236.3
+    restart: always
+    env_file:
+      - .env
+    environment:
+      N8N_HOST: ${N8N_API_HOST}
+      WEBHOOK_URL: ${API_WEBHOOK_URL}
+    volumes:
+      - ./data/api:/home/node/.n8n
+      - ./import:/home/node/import
+      - ./export:/home/node/export
+    ports:
+      - "5679:5678"
 
   redis:
     image: redis:6-alpine
@@ -39,12 +54,16 @@ services:
       - "443:443"
     env_file:
       - .env
+    environment:
+      NGINX_APP_HOST: lowcode.inovenow.com
+      NGINX_APP_API_HOST: lowcode_api.inovenow.com
     volumes:
       - ./nginx/config:/etc/nginx/conf.d
       - ./data/certbot/conf:/etc/letsencrypt
       - ./data/certbot/www:/var/www/certbot
     depends_on:
       - app
+      - api
 
   certbot:
     image: certbot/certbot
