@@ -9,7 +9,7 @@ services:
       - .env
     environment:
       N8N_HOST: ${N8N_HOST}
-      WEBHOOK_URL: ${N8N_WEBHOOK_URL}
+      WEBHOOK_TUNNEL_URL: ${N8N_WEBHOOK_URL}
       EXECUTIONS_MODE: queue
       QUEUE_BULL_REDIS_HOST: redis
       QUEUE_BULL_REDIS_PASSWORD: redis
@@ -30,7 +30,7 @@ services:
       - .env
     environment:
       N8N_HOST: ${N8N_API_HOST}
-      WEBHOOK_URL: ${API_WEBHOOK_URL}
+      WEBHOOK_TUNNEL_URL: ${API_WEBHOOK_URL}
     volumes:
       - ./data/api:/home/node/.n8n
       - ./import:/home/node/import
