@@ -3,7 +3,7 @@ services:
 
   app:
     container_name: n8n
-    image: n8nio/n8n:0.236.3
+    image: n8nio/n8n:latest
     restart: always
     env_file:
       - .env
@@ -24,7 +24,7 @@ services:
 
   api:
     container_name: n8n_api
-    image: n8nio/n8n:0.236.3
+    image: n8nio/n8n:latest
     restart: always
     env_file:
       - .env
