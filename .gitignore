@@ -5,4 +5,5 @@ data
 import/*.json
 export/*.json
 nginx/config/app.conf
+nginx/config/api.conf
 

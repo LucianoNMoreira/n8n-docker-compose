@@ -1,6 +1,6 @@
 server {
   listen 80;
-  server_name $NGINX_APP_HOST;
+  server_name $NGINX_APP_API_HOST;
 
   location / {
     return 301 https://$host$request_uri;
@@ -13,10 +13,10 @@ server {
 
 server {
   listen 443 ssl;
-  server_name $NGINX_APP_HOST;
+  server_name $NGINX_APP_API_HOST;
   
   location / {
-    proxy_pass http://app:5678;
+    proxy_pass http://api:5678;
     proxy_set_header Connection '';
     proxy_http_version 1.1;
     chunked_transfer_encoding off;
@@ -24,8 +24,8 @@ server {
     proxy_cache off;
   }
 
-  ssl_certificate /etc/letsencrypt/live/$NGINX_APP_HOST/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/$NGINX_APP_HOST/privkey.pem;
+  ssl_certificate /etc/letsencrypt/live/$NGINX_APP_API_HOST/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/$NGINX_APP_API_HOST/privkey.pem;
 
   include /etc/letsencrypt/options-ssl-nginx.conf;
   ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
