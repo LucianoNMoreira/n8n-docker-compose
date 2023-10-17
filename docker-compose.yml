@@ -36,6 +36,7 @@ services:
       QUEUE_BULL_REDIS_PASSWORD: redis
     depends_on:
       - redis
+      - app
 
   api:
     container_name: n8n_api
