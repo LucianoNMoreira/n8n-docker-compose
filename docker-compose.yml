@@ -23,6 +23,20 @@ services:
     depends_on:
       - redis
 
+  worker:
+    container_name: n8n
+    image: n8nio/n8n:latest
+    command: worker
+    restart: always
+    env_file:
+      - .env
+    environment:
+      EXECUTIONS_MODE: queue
+      QUEUE_BULL_REDIS_HOST: redis
+      QUEUE_BULL_REDIS_PASSWORD: redis
+    depends_on:
+      - redis
+
   api:
     container_name: n8n_api
     image: n8nio/n8n:latest
