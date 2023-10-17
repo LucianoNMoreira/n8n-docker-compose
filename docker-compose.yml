@@ -24,7 +24,7 @@ services:
       - redis
 
   worker:
-    container_name: n8n
+    container_name: n8n_worker
     image: n8nio/n8n:latest
     command: worker
     restart: always
