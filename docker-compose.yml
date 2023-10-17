@@ -34,6 +34,8 @@ services:
       EXECUTIONS_MODE: queue
       QUEUE_BULL_REDIS_HOST: redis
       QUEUE_BULL_REDIS_PASSWORD: redis
+    volumes:
+      - ./data/app:/home/node/.n8n
     depends_on:
       - redis
       - app
